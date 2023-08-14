@@ -1,0 +1,48 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Author {
+  id: UUID!
+  name: String!
+}
+
+type AuthorPayload {
+  record: Author
+  error: String
+}
+
+type Book {
+  id: UUID!
+  title: String!
+  author: Author!
+}
+
+type BookPayload {
+  record: Book
+  error: String
+}
+
+type Mutation {
+  addAuthor(input: AuthorInput!): AuthorPayload!
+  addBook(input: BookInput!): BookPayload!
+}
+
+type Query {
+  books: [Book!]!
+}
+
+input AuthorInput {
+  name: String!
+}
+
+input BookInput {
+  title: String!
+  author: UUID!
+}
+
+"The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
+directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
+
+scalar UUID @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc4122")
